@@ -22,7 +22,7 @@ const NavBar = () => {
                 dom we had to wrapp up our app inside the BrowserRouter
             */}
       <div className="flex items-center justify-between">
-        <div className="md:flex md:items-center md:gap-4 md:p-4">
+        <div className="md:flex md:items-center md:gap-4 md:p-2">
           {/* inline block is because this whole nav bar was being clickable which we dont want we want only the image to be clickable */}
           <Link to="/" className="inline-block">
             <img src={wrytrLogo} className="h-15 w-15" />
@@ -68,13 +68,13 @@ const NavBar = () => {
           </Link>
 
 
-            <button className="bg-black rounded-lg py-2 px-4 text-white hover:cursor-pointer">
+            <Link to={"/signin"} className="bg-black rounded-lg py-2 px-4 text-white hover:cursor-pointer">
                 Sign In
-            </button>
+            </Link>
          
-            <button className="bg-white rounded-lg py-2 px-4 text-black border-gray-200 border-1 hover:cursor-pointer">
+            <Link to={"/singup"} className="hidden md:block bg-white rounded-lg py-2 px-4 text-black border-gray-200 border-1 hover:cursor-pointer">
                 Sign Up
-            </button>
+            </Link>
         </div>
       </div>
     </nav>
