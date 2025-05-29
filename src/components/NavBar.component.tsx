@@ -1,6 +1,8 @@
+import { useState } from "react";
 import wrytrLogo from "../../src/assets/onlyLogo.png";
 import { Link } from "react-router-dom";
 const NavBar = () => {
+  const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
   return (
     /*
             things we need in the navbar
@@ -27,7 +29,11 @@ const NavBar = () => {
           </Link>
 
           {/* search bar section */}
-          <div className="absolute left-0 w-full mt-0.5 border-b border-gray-200 py-4 px-[5vw] md:border-0 md:relative md:inset-0  md:p-0 md:w-auto">
+          <div
+            className={`absolute left-0 w-full mt-0.5 border-b border-gray-200 py-4 px-[5vw] md:border-0 md:relative md:inset-0  md:p-0 md:w-auto ${
+              searchBoxVisibility ? "show" : "hide"
+            } md:!opacity-100 md:!pointer-events-auto`}
+          >
             <input
               type="text"
               placeholder="Search"
@@ -39,9 +45,35 @@ const NavBar = () => {
                 */}
           </div>
         </div>
-        <div className="mr-10 md:hidden">
-            <button className="bg-gray-300 rounded-full w-10 h-10 flex justify-center items-center text-md hover:cursor-pointer">
-                <i className="fi fi-rr-search"></i>
+
+        {/* search bar toggle button */}
+        <div className="mr-4 flex gap-4 items-center">
+          <div className="md:hidden">
+            <button
+              className="bg-gray-300 rounded-full w-10 h-10 flex justify-center items-center text-md hover:cursor-pointer"
+              onClick={() =>
+                setSearchBoxVisibility((currentVal) => !currentVal)
+              }
+            >
+              <i className="fi fi-rr-search"></i>
+            </button>
+          </div>
+          {/* write blog link */}
+          <Link
+            to={"/editor"}
+            className="hidden md:flex gap-2 items-center hover:bg-gray-200 p-2 rounded-lg ease-in-out transition-all duration-150"
+          >
+            <i className="fi fi-rr-file-edit"></i>
+            <p>Write</p>
+          </Link>
+
+
+            <button className="bg-black rounded-lg py-2 px-4 text-white hover:cursor-pointer">
+                Sign In
+            </button>
+         
+            <button className="bg-white rounded-lg py-2 px-4 text-black border-gray-200 border-1 hover:cursor-pointer">
+                Sign Up
             </button>
         </div>
       </div>

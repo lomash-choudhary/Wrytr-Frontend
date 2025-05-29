@@ -12,3 +12,12 @@
 body{
     font-family: "Roboto";
 }
+
+
+.show{
+    @apply opacity-100 pointer-events-auto transition-all ease-in-out duration-300
+}
+
+.hide{
+    @apply opacity-0 pointer-events-none duration-300 transition-all ease-in-out
+}
