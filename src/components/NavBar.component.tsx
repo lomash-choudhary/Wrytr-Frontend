@@ -18,7 +18,7 @@ const NavBar = () => {
                 dom we had to wrapp up our app inside the BrowserRouter
             */}
         <div className="flex items-center justify-between">
-          <div className="md:flex md:items-center md:gap-4 md:p-2">
+          <div className="md:flex md:items-center md:gap-4">
             {/* inline block is because this whole nav bar was being clickable which we dont want we want only the image to be clickable */}
             <Link to="/" className="inline-block">
               <img src={wrytrLogo} className="h-15 w-15" />
@@ -33,9 +33,9 @@ const NavBar = () => {
               <input
                 type="text"
                 placeholder="Search"
-                className="w-full outline-black md:w-auto bg-gray-200 p-4 pl-6 pr-[12%] md:pr-6 rounded-lg placeholder:text-gray-600 md:pl-14"
+                className="w-full outline-black md:w-auto bg-gray-200 p-2 pl-6 pr-[12%] md:pr-4 rounded-lg placeholder:text-gray-600 md:pl-12 placeholder:text-md text-gray-800"
               />
-              <i className="fi fi-rr-search absolute right-[10%] md:pointer-events-none md:left-5 top-1/2 -translate-y-1/2 text-gray-600 text-lg pt-1"></i>
+              <i className="fi fi-rr-search absolute right-[10%] md:pointer-events-none md:left-5 top-1/2 -translate-y-1/2 text-gray-600 text-md pt-1"></i>
               {/*
                  we dont want this search icon to be interactive in larger screens or medium screens that is why we set the value of md:pointer-events-none 
                 */}

@@ -8,7 +8,8 @@ const InputBoxComp = ({
   value,
   iconType,
   toggleEye,
-  isVisible
+  isVisible,
+  onChange
 }: inputBoxType) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -20,7 +21,8 @@ const InputBoxComp = ({
           placeholder={placeholder}
           type={type}
           id={id}
-          defaultValue={value}
+          onChange={onChange}
+          value={value}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           className={`bg-gray-200 p-2 pl-8 rounded-lg font-normal text-sm w-[250px] outline-stone-700 placeholder:text-sm md:text-lg md:placeholder:text-md md:w-[300px] ${
@@ -54,6 +56,7 @@ interface inputBoxType {
   iconType: string;
   toggleEye?: any;
   isVisible? :boolean
+  onChange?: any
 }
 
 export default InputBoxComp;

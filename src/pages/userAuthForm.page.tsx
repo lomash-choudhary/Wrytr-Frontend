@@ -6,17 +6,31 @@ import AnimationWrapper from "../common/pageAnimation";
 
 const UserAuthForm = ({ type }: typeOfForm) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    username: "",
+    password: "",
+    fullName: "",
+  });
 
   const toggleEye = () => {
     setIsVisible(!isVisible);
   };
-/*
+
+  const handleFormChange = (e: any) => {
+    setFormData({...formData, [e.target.name]:e.target.value})
+  };
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    console.log(formData);
+  };
+  /*
   but this animation wrapper dont have any way to tell framer motion that sign up and 
   sign in div are two different things because we only have a single section 
   so we will use key property
 */
   return (
-    <AnimationWrapper key={type}>
+    <AnimationWrapper keyValue={type}>
       <section className="flex flex-col items-center justify-center md:h-[calc(100vh-76px)] h-[calc(100vh-65px)]">
         <div className="flex items-center justify-center">
           <form className=" max-w-[400px]">
@@ -25,8 +39,23 @@ const UserAuthForm = ({ type }: typeOfForm) => {
             </h1>
             {type == "sign-up" ? (
               <InputBoxComp
+                value={formData.fullName}
+                onChange={handleFormChange}
                 name="fullName"
                 placeholder="Full Name"
+                type="text"
+                iconType="fi-rr-id-card-clip-alt"
+              />
+            ) : (
+              ""
+            )}
+
+            {type == "sign-up" ? (
+              <InputBoxComp
+                value={formData.username}
+                onChange={handleFormChange}
+                name="username"
+                placeholder="Username"
                 type="text"
                 iconType="fi-rr-user"
               />
@@ -35,14 +64,18 @@ const UserAuthForm = ({ type }: typeOfForm) => {
             )}
 
             <InputBoxComp
+              value={formData.email}
+              onChange={handleFormChange}
               name="email"
               placeholder="Email"
-              type="text"
+              type="email"
               iconType="fi-rr-at"
             />
 
             <InputBoxComp
               name="password"
+              value={formData.password}
+              onChange={handleFormChange}
               placeholder="Password"
               type={`${isVisible ? "text" : "password"}`}
               iconType="fi-rr-eye"
@@ -52,8 +85,12 @@ const UserAuthForm = ({ type }: typeOfForm) => {
           </form>
         </div>
 
-        <div>
-          <button className="btn-black capitalize mt-4">
+        <div className="w-[250px] md:w-[300px]">
+          <button
+            type="submit"
+            className="btn-gray capitalize mt-4 flex items-center justify-center w-full"
+            onClick={handleSubmit}
+          >
             {type.replace("-", " ")}
           </button>
         </div>
@@ -64,9 +101,9 @@ const UserAuthForm = ({ type }: typeOfForm) => {
           <hr className="w-1/2 border-black " />
         </div>
 
-        <div>
-          <button className="btn-black flex items-center justify-center gap-2">
-            <img src={GoogleLogo} className="w-10 h-10" />
+        <div className="w-[250px] md:w-[300px]">
+          <button className="btn-black flex items-center justify-center gap-2 w-full">
+            <img src={GoogleLogo} className="w-6 h-6" />
             Continue with Google
           </button>
         </div>

@@ -7,7 +7,7 @@ import {
 } from "framer-motion";
 const AnimationWrapper = ({
   children,
-  key,
+  keyValue,
   initial = { opacity: 0 },
   animate = { opacity: 1 },
   transition = { duration: 1 },
@@ -28,7 +28,7 @@ const AnimationWrapper = ({
   return (
     <AnimatePresence>
       <motion.div
-        key={key}
+        key={keyValue}
         initial={initial}
         animate={animate}
         transition={transition}
@@ -45,7 +45,7 @@ interface AnimationWrapperType {
   initial?: boolean | TargetAndTransition | VariantLabels | undefined;
   animate?: boolean | TargetAndTransition | VariantLabels | undefined;
   transition?: object;
-  key: string;
+  keyValue: string;
   className?: string;
 }
 
