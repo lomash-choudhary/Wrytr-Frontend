@@ -65,14 +65,14 @@ const NavBar = () => {
 
             <Link
               to={"/signin"}
-              className="bg-black rounded-lg py-2 px-4 text-white hover:cursor-pointer"
+              className="btn-black"
             >
               Sign In
             </Link>
 
             <Link
               to={"/signup"}
-              className="hidden md:block bg-white rounded-lg py-2 px-4 text-black border-gray-200 border-1 hover:cursor-pointer"
+              className="hidden md:block btn-white"
             >
               Sign Up
             </Link>

@@ -1,12 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Updock&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=League+Script&display=swap');
 @import "tailwindcss";
-@font-face {
-    font-family: Roboto;
-    src: url("../src/assets/fonts/Roboto-VariableFont_wdth\,wght.ttf");
-}
 
 
 @theme{
-    --font-roboto: Roboto, "sans-serif"
+    --font-roboto: "Roboto", "sans-serif";
+    --font-poppins: Poppins, "sans-serif";
+    --font-flow: League Script, "sans-serif";
+    --font-updock: Updock, "sans-serif";
 }
 
 body{
@@ -20,4 +23,12 @@ body{
 
 .hide{
     @apply opacity-0 pointer-events-none duration-300 transition-all ease-in-out
+}
+
+.btn-black{
+    @apply bg-black rounded-lg py-2 px-4 text-white hover:cursor-pointer
+}
+
+.btn-white{
+    @apply bg-white rounded-lg py-2 px-4 text-black border-gray-200 border-1 hover:cursor-pointer
 }
