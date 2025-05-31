@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import InputBoxComp from "../components/InpuptBox.component";
 import GoogleLogo from "../assets/googleLogo.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import AnimationWrapper from "../common/pageAnimation";
 import { Toaster, toast } from "react-hot-toast";
 import type { UserAuthFormServerInterface } from "../interfaces/userAuthForm.interface";
@@ -18,7 +18,6 @@ const UserAuthForm = ({ type }: typeOfForm) => {
     fullName: "",
   });
   const { userAuthToken, setUserAuthToken }: any = useContext(CreateContext);
-
   //regex for email and password validation
   const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/;
@@ -38,21 +37,19 @@ const UserAuthForm = ({ type }: typeOfForm) => {
     endPoint,
     formData,
   }: UserAuthFormServerInterface) => {
-    console.log(endPoint);
-    console.log(formData);
 
     try {
-      console.log(`${import.meta.env.VITE_USER_BASE_URL}${endPoint}`);
       const serverResponse = await axios.post(
         `${import.meta.env.VITE_USER_BASE_URL}${endPoint}`,
         formData
       );
       const { data } = serverResponse;
+      const accessToken = data?.data?.accessToken
       storeInSession({
         key: "accessToken",
-        value: data?.data?.accessToken,
+        value: accessToken
       });
-      setUserAuthToken(data?.data?.accessToken)
+      setUserAuthToken({accessToken})
       const successMessage = data?.message;
       toast.success(successMessage);
     } catch (error) {
@@ -110,6 +107,9 @@ const UserAuthForm = ({ type }: typeOfForm) => {
   so we will use key property
 */
   return (
+    userAuthToken.accessToken ?
+    <Navigate to={"/"}/>
+    :
     <AnimationWrapper keyValue={type}>
       <section className="flex flex-col items-center justify-center md:h-[calc(100vh-76px)] h-[calc(100vh-65px)]">
         <Toaster />
@@ -206,6 +206,8 @@ const UserAuthForm = ({ type }: typeOfForm) => {
         )}
       </section>
     </AnimationWrapper>
+
+    
   );
 };
 

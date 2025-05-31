@@ -20,15 +20,14 @@ function AppContext() {
   const { userAuthToken, setUserAuthToken }: any = useContext(CreateContext);
 
   useEffect(() => {
-    let userSessionValue = lookInSession({ key: "accessToken" });
-    console.log(userSessionValue);
+    let accessToken = lookInSession({ key: "accessToken" });
 
-    userSessionValue
-      ? setUserAuthToken({ userSessionValue })
+    accessToken
+      ? setUserAuthToken({ accessToken })
       : setUserAuthToken({
           accessToken: null,
         });
-    console.log(userAuthToken);
+
   }, []);
   return (
     <>
