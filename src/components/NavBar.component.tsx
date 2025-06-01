@@ -1,8 +1,27 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import wrytrLogo from "../../src/assets/onlyLogo.png";
 import { Link, Outlet } from "react-router-dom";
+import { CreateContext } from "../context/auth.context";
+import { UserNavigationPanel } from "./UserNavigation.component";
 const NavBar = () => {
   const [searchBoxVisibility, setSearchBoxVisibility] = useState(false);
+
+  const { userAuthToken, setUserAuthToken }: any = useContext(CreateContext);
+
+  const [isNavigationPanelOpen, setIsNavigationPanelOpen] = useState(false);
+
+  //used for hadling the state of navigation panel
+  const handleTheNavigationPanel = () => {
+    setIsNavigationPanelOpen((currentVal) => !currentVal);
+  };
+
+  //use when the user click else where other than the profile icon
+  const handleBlurTheNavigationPanel = () => {
+    setTimeout(() => {
+      setIsNavigationPanelOpen(false);
+    }, 200);
+  };
+
   return (
     <>
       {/* things we need in the navbar logo of our app search box signup , signin
@@ -63,23 +82,44 @@ const NavBar = () => {
               <p>Write</p>
             </Link>
 
-            <Link
-              to={"/signin"}
-              className="btn-black"
-            >
-              Sign In
-            </Link>
+            {userAuthToken.accessToken !== null ? (
+              <>
+                <Link to={"/dashboard/notification"}>
+                  <button className="bg-gray-300 h-10 w-10 rounded-full flex justify-center items-center hover:bg-gray-400/50 hover:cursor-pointer transition-all ease-in duration-300">
+                    <i className="fi fi-rr-bell mt-1 block"></i>
+                  </button>
+                </Link>
 
-            <Link
-              to={"/signup"}
-              className="hidden md:block btn-white"
-            >
-              Sign Up
-            </Link>
+                <div>
+                  <button
+                    className="w-10 h-10 mt-1"
+                    onClick={handleTheNavigationPanel}
+                    onBlur={handleBlurTheNavigationPanel}
+                  >
+                    <img
+                      src={userAuthToken.profileImageUrl}
+                      className="w-full h-full rounded-lg hover:cursor-pointer object-cover"
+                    />
+                  </button>
+
+                  {isNavigationPanelOpen ? <UserNavigationPanel /> : ""}
+                </div>
+              </>
+            ) : (
+              <>
+                <Link to={"/signin"} className="btn-black">
+                  Sign In
+                </Link>
+                <Link to={"/signup"} className="hidden md:block btn-white">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </nav>
 
+      {/* for /signup and /signin */}
       <Outlet />
     </>
   );

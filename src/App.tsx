@@ -21,11 +21,14 @@ function AppContext() {
 
   useEffect(() => {
     let accessToken = lookInSession({ key: "accessToken" });
+    let profileImageUrl = lookInSession({key: "profileImageUrl"});
+    let username = lookInSession({key: "username"})
 
     accessToken
-      ? setUserAuthToken({ accessToken })
+      ? setUserAuthToken({ accessToken, profileImageUrl, username })
       : setUserAuthToken({
           accessToken: null,
+          profileImageUrl: null
         });
 
   }, []);

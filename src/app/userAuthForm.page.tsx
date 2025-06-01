@@ -8,6 +8,7 @@ import type { UserAuthFormServerInterface } from "../interfaces/userAuthForm.int
 import axios from "axios";
 import { storeInSession } from "../common/session";
 import { CreateContext } from "../context/auth.context";
+import { authWithGoogleFn } from "../components/Firebase";
 
 const UserAuthForm = ({ type }: typeOfForm) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -37,19 +38,28 @@ const UserAuthForm = ({ type }: typeOfForm) => {
     endPoint,
     formData,
   }: UserAuthFormServerInterface) => {
-
     try {
       const serverResponse = await axios.post(
         `${import.meta.env.VITE_USER_BASE_URL}${endPoint}`,
         formData
       );
       const { data } = serverResponse;
-      const accessToken = data?.data?.accessToken
+      const accessToken = data?.data?.accessToken;
+      const profileImageUrl = data?.data?.profileImage;
+      const username = data?.data?.username;
       storeInSession({
         key: "accessToken",
-        value: accessToken
+        value: accessToken,
       });
-      setUserAuthToken({accessToken})
+      storeInSession({
+        key: "profileImageUrl",
+        value: profileImageUrl,
+      });
+      storeInSession({
+        key: "username",
+        value: username,
+      });
+      setUserAuthToken({ accessToken, profileImageUrl, username });
       const successMessage = data?.message;
       toast.success(successMessage);
     } catch (error) {
@@ -101,15 +111,27 @@ const UserAuthForm = ({ type }: typeOfForm) => {
     userAuthThroughServer({ endPoint, formData });
   };
 
+  //handle google auth function
+
+  const handleGoogleAuth = async (e: any) => {
+    e.preventDefault();
+    try {
+      const user = await authWithGoogleFn();
+      console.log(user);
+    } catch (error) {
+      toast.error("Error occured while signing up with Google")
+      console.log(error)
+    }
+  };
+
   /*
   but this animation wrapper dont have any way to tell framer motion that sign up and 
   sign in div are two different things because we only have a single section 
   so we will use key property
 */
-  return (
-    userAuthToken.accessToken ?
-    <Navigate to={"/"}/>
-    :
+  return userAuthToken.accessToken ? (
+    <Navigate to={"/"} />
+  ) : (
     <AnimationWrapper keyValue={type}>
       <section className="flex flex-col items-center justify-center md:h-[calc(100vh-76px)] h-[calc(100vh-65px)]">
         <Toaster />
@@ -183,7 +205,10 @@ const UserAuthForm = ({ type }: typeOfForm) => {
         </div>
 
         <div className="w-[250px] md:w-[300px]">
-          <button className="btn-black flex items-center justify-center gap-2 w-full">
+          <button
+            className="btn-black flex items-center justify-center gap-2 w-full"
+            onClick={handleGoogleAuth}
+          >
             <img src={GoogleLogo} className="w-6 h-6" />
             Continue with Google
           </button>
@@ -206,8 +231,6 @@ const UserAuthForm = ({ type }: typeOfForm) => {
         )}
       </section>
     </AnimationWrapper>
-
-    
   );
 };
 
